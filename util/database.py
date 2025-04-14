@@ -14,13 +14,11 @@ def init_db(app):
         create_dummy_data()
 
 def create_dummy_data():
-    # Inserção das categorias diretamente via SQL
     db.session.execute(
         text("INSERT INTO categories (name) VALUES ('Eletrônicos'), ('Roupas')")
     )
-    db.session.commit()  # Commit após a execução das inserções
+    db.session.commit()
 
-    # Inserção dos produtos diretamente via SQL
     db.session.execute(
         text(
             "INSERT INTO products (name, description, price, stock, category_id) "
@@ -30,7 +28,6 @@ def create_dummy_data():
     )
     db.session.commit()
 
-    # Inserção dos endereços diretamente via SQL
     db.session.execute(
         text(
             "INSERT INTO addresses (postcode, state, city, street, number) "
@@ -40,7 +37,6 @@ def create_dummy_data():
     )
     db.session.commit()
 
-    # Inserção dos pedidos diretamente via SQL
     db.session.execute(
         text(
             "INSERT INTO orders (order_date, status, total_price, completed_at, address_id) "
@@ -50,7 +46,6 @@ def create_dummy_data():
     )
     db.session.commit()
 
-    # Inserção dos itens de pedido diretamente via SQL
     db.session.execute(
         text(
             "INSERT INTO order_items (order_id, product_id, product_quantity, price_at_time_of_order) "
