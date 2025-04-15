@@ -1,0 +1,251 @@
+swagger: "2.0"
+info:
+  description: "API para gerenciamento de pedidos, produtos, categorias e endereços."
+  version: "1.0.0"
+  title: "Documentação da API de Pedidos"
+
+host: "localhost:5000"
+basePath: "/"
+
+schemes:
+  - "http"
+
+definitions:
+  Address:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "ID do endereço"
+      postcode:
+        type: "string"
+        description: "Código postal"
+      state:
+        type: "string"
+        description: "Estado"
+      city:
+        type: "string"
+        description: "Cidade"
+      street:
+        type: "string"
+        description: "Rua"
+      number:
+        type: "string"
+        description: "Número"
+    required:
+      - postcode
+      - state
+      - city
+      - street
+      - number
+
+  Category:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "ID da categoria"
+      name:
+        type: "string"
+        description: "Nome da categoria"
+    required:
+      - name
+
+  Product:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "ID do produto"
+      name:
+        type: "string"
+        description: "Nome do produto"
+      description:
+        type: "string"
+        description: "Descrição do produto"
+      price:
+        type: "number"
+        format: "float"
+        description: "Preço do produto"
+      stock:
+        type: "integer"
+        description: "Quantidade em estoque"
+      category:
+        type: "string"
+        description: "Categoria do produto"
+    required:
+      - name
+      - price
+      - stock
+      - category
+
+  OrderItem:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "ID do item do pedido"
+      order_id:
+        type: "integer"
+        description: "ID do pedido"
+      product_id:
+        type: "integer"
+        description: "ID do produto"
+      product_quantity:
+        type: "integer"
+        description: "Quantidade do produto no pedido"
+      price_at_time_of_order:
+        type: "number"
+        format: "float"
+        description: "Preço do produto no momento da compra"
+      product:
+        $ref: "#/definitions/Product"
+    required:
+      - order_id
+      - product_id
+      - product_quantity
+      - price_at_time_of_order
+
+  Order:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "ID do pedido"
+      order_date:
+        type: "string"
+        format: "date-time"
+        description: "Data do pedido"
+      status:
+        type: "string"
+        description: "Status do pedido"
+      total_price:
+        type: "number"
+        format: "float"
+        description: "Preço total do pedido"
+      completed_at:
+        type: "string"
+        format: "date-time"
+        description: "Data de conclusão do pedido"
+      address:
+        $ref: "#/definitions/Address"
+      items:
+        type: "array"
+        items:
+          $ref: "#/definitions/OrderItem"
+    required:
+      - order_date
+      - status
+      - total_price
+      - address
+
+paths:
+  /addresses:
+    get:
+      summary: "Obter todos os endereços"
+      description: "Retorna todos os endereços cadastrados no sistema."
+      responses:
+        200:
+          description: "Lista de endereços"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Address"
+        500:
+          description: "Erro interno no servidor"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Erro ao obter endereços."
+
+    post:
+      summary: "Criar um novo endereço"
+      description: "Cadastra um novo endereço no sistema."
+      parameters:
+        - in: "body"
+          name: "address"
+          description: "Endereço a ser criado"
+          required: true
+          schema:
+            $ref: "#/definitions/Address"
+      responses:
+        201:
+          description: "Endereço criado com sucesso"
+          schema:
+            $ref: "#/definitions/Address"
+        400:
+          description: "Erro de validação dos dados"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Dados inválidos para o endereço."
+
+  /addresses/{address_id}:
+    get:
+      summary: "Obter um endereço pelo ID"
+      description: "Retorna o endereço correspondente ao ID fornecido."
+      parameters:
+        - in: "path"
+          name: "address_id"
+          type: "integer"
+          required: true
+          description: "ID do endereço"
+      responses:
+        200:
+          description: "Endereço encontrado"
+          schema:
+            $ref: "#/definitions/Address"
+        404:
+          description: "Endereço não encontrado"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Endereço não encontrado."
+
+    put:
+      summary: "Atualizar um endereço"
+      description: "Atualiza um endereço existente no sistema."
+      parameters:
+        - in: "path"
+          name: "address_id"
+          type: "integer"
+          required: true
+          description: "ID do endereço"
+        - in: "body"
+          name: "address"
+          description: "Dados do endereço a serem atualizados"
+          required: true
+          schema:
+            $ref: "#/definitions/Address"
+      responses:
+        200:
+          description: "Endereço atualizado com sucesso"
+          schema:
+            $ref: "#/definitions/Address"
+        400:
+          description: "Erro ao atualizar endereço"
+        404:
+          description: "Endereço não encontrado"
+
+    delete:
+      summary: "Excluir um endereço"
+      description: "Exclui um endereço existente pelo ID fornecido."
+      parameters:
+        - in: "path"
+          name: "address_id"
+          type: "integer"
+          required: true
+          description: "ID do endereço"
+      responses:
+        204:
+          description: "Endereço excluído com sucesso"
+        404:
+          description: "Endereço não encontrado"
+        400:
+          description: "Erro ao excluir endereço"

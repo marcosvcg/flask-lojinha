@@ -1,7 +1,7 @@
 from models import Address
 from util.database import db
 from sqlalchemy.exc import SQLAlchemyError
-from exceptions import NotFoundError
+from util.exceptions import NotFoundError
 
 class AddressRepository:
     
@@ -12,6 +12,8 @@ class AddressRepository:
             db.session.add(address)
             db.session.commit()
             return address
+        except:
+            raise SQLAlchemyError
 
     @staticmethod
     def get_all():

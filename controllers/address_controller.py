@@ -1,20 +1,13 @@
 from flask import Blueprint, jsonify, request
 from services import AddressService
-from exceptions import NotFoundError
+from util.exceptions import NotFoundError
 from sqlalchemy.exc import SQLAlchemyError
+from flasgger import swag_from
 
 bp = Blueprint('address', __name__, url_prefix='/addresses')
 
-
-"""
-Não tive tempo para alterar esse controller, eu apenas copiei e colei do GPT
-
-Eu do futuro, dê uma revisada nesse código, é importante.
-
-Estude também o funcionamento dele!
-"""
-
 @bp.route('/', methods=['GET'])
+@swag_from('util/swagger/address.yaml', endpoint='get_addresses')
 def get_addresses():
     addresses = AddressService.get_all_addresses()
     return jsonify([address.to_dict() for address in addresses]), 200
@@ -30,6 +23,7 @@ def get_address_by_id(address_id):
 
 
 @bp.route('/', methods=['POST'])
+@swag_from('util/swagger/address.yaml', endpoint='create_address')
 def create_address():
     try:
         data = request.get_json()
