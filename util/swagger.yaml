@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
-  description: "API para gerenciamento de pedidos, produtos, categorias e endereços."
+  description: "API feita para aprender mais sobre o framework"
   version: "1.0.0"
-  title: "Documentação da API de Pedidos"
+  title: "Flask Lojinha"
 
 host: "localhost:5000"
 basePath: "/"
@@ -140,112 +140,251 @@ definitions:
       - address
 
 paths:
-  /addresses:
+
+  /categories:
     get:
-      summary: "Obter todos os endereços"
-      description: "Retorna todos os endereços cadastrados no sistema."
+      summary: "Listar todas as categorias"
       responses:
         200:
-          description: "Lista de endereços"
+          description: "Lista de categorias"
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/Address"
-        500:
-          description: "Erro interno no servidor"
-          schema:
-            type: "object"
-            properties:
-              error:
-                type: "string"
-                example: "Erro ao obter endereços."
-
+              $ref: "#/definitions/Category"
     post:
-      summary: "Criar um novo endereço"
-      description: "Cadastra um novo endereço no sistema."
+      summary: "Criar nova categoria"
       parameters:
         - in: "body"
-          name: "address"
-          description: "Endereço a ser criado"
+          name: "category"
           required: true
           schema:
-            $ref: "#/definitions/Address"
+            $ref: "#/definitions/Category"
       responses:
         201:
-          description: "Endereço criado com sucesso"
+          description: "Categoria criada"
           schema:
-            $ref: "#/definitions/Address"
-        400:
-          description: "Erro de validação dos dados"
-          schema:
-            type: "object"
-            properties:
-              error:
-                type: "string"
-                example: "Dados inválidos para o endereço."
+            $ref: "#/definitions/Category"
 
-  /addresses/{address_id}:
+  /categories/{category_id}:
     get:
-      summary: "Obter um endereço pelo ID"
-      description: "Retorna o endereço correspondente ao ID fornecido."
+      summary: "Obter categoria por ID"
       parameters:
         - in: "path"
-          name: "address_id"
+          name: "category_id"
           type: "integer"
           required: true
-          description: "ID do endereço"
       responses:
         200:
-          description: "Endereço encontrado"
           schema:
-            $ref: "#/definitions/Address"
+            $ref: "#/definitions/Category"
         404:
-          description: "Endereço não encontrado"
-          schema:
-            type: "object"
-            properties:
-              error:
-                type: "string"
-                example: "Endereço não encontrado."
-
+          description: "Categoria não encontrada"
     put:
-      summary: "Atualizar um endereço"
-      description: "Atualiza um endereço existente no sistema."
+      summary: "Atualizar categoria"
       parameters:
         - in: "path"
-          name: "address_id"
+          name: "category_id"
           type: "integer"
           required: true
-          description: "ID do endereço"
         - in: "body"
-          name: "address"
-          description: "Dados do endereço a serem atualizados"
+          name: "category"
           required: true
           schema:
-            $ref: "#/definitions/Address"
+            $ref: "#/definitions/Category"
       responses:
         200:
-          description: "Endereço atualizado com sucesso"
           schema:
-            $ref: "#/definitions/Address"
-        400:
-          description: "Erro ao atualizar endereço"
-        404:
-          description: "Endereço não encontrado"
-
+            $ref: "#/definitions/Category"
     delete:
-      summary: "Excluir um endereço"
-      description: "Exclui um endereço existente pelo ID fornecido."
+      summary: "Deletar categoria"
       parameters:
         - in: "path"
-          name: "address_id"
+          name: "category_id"
           type: "integer"
           required: true
-          description: "ID do endereço"
       responses:
         204:
-          description: "Endereço excluído com sucesso"
-        404:
-          description: "Endereço não encontrado"
-        400:
-          description: "Erro ao excluir endereço"
+          description: "Categoria deletada"
+
+  /products:
+    get:
+      summary: "Listar produtos"
+      responses:
+        200:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Product"
+    post:
+      summary: "Criar produto"
+      parameters:
+        - in: "body"
+          name: "product"
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        201:
+          schema:
+            $ref: "#/definitions/Product"
+
+  /products/{product_id}:
+    get:
+      summary: "Obter produto por ID"
+      parameters:
+        - in: "path"
+          name: "product_id"
+          type: "integer"
+          required: true
+      responses:
+        200:
+          schema:
+            $ref: "#/definitions/Product"
+    put:
+      summary: "Atualizar produto"
+      parameters:
+        - in: "path"
+          name: "product_id"
+          type: "integer"
+          required: true
+        - in: "body"
+          name: "product"
+          required: true
+          schema:
+            $ref: "#/definitions/Product"
+      responses:
+        200:
+          schema:
+            $ref: "#/definitions/Product"
+    delete:
+      summary: "Remover produto"
+      parameters:
+        - in: "path"
+          name: "product_id"
+          type: "integer"
+          required: true
+      responses:
+        204:
+          description: "Produto removido"
+
+  /orders:
+    get:
+      summary: "Listar pedidos"
+      responses:
+        200:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Order"
+    post:
+      summary: "Criar pedido"
+      parameters:
+        - in: "body"
+          name: "order"
+          required: true
+          schema:
+            $ref: "#/definitions/Order"
+      responses:
+        201:
+          schema:
+            $ref: "#/definitions/Order"
+
+  /orders/{order_id}:
+    get:
+      summary: "Buscar pedido por ID"
+      parameters:
+        - in: "path"
+          name: "order_id"
+          type: "integer"
+          required: true
+      responses:
+        200:
+          schema:
+            $ref: "#/definitions/Order"
+    put:
+      summary: "Atualizar pedido"
+      parameters:
+        - in: "path"
+          name: "order_id"
+          type: "integer"
+          required: true
+        - in: "body"
+          name: "order"
+          required: true
+          schema:
+            $ref: "#/definitions/Order"
+      responses:
+        200:
+          schema:
+            $ref: "#/definitions/Order"
+    delete:
+      summary: "Excluir pedido"
+      parameters:
+        - in: "path"
+          name: "order_id"
+          type: "integer"
+          required: true
+      responses:
+        204:
+          description: "Pedido removido"
+
+  /order-items:
+    get:
+      summary: "Listar todos os itens de pedidos"
+      responses:
+        200:
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/OrderItem"
+    post:
+      summary: "Criar item de pedido"
+      parameters:
+        - in: "body"
+          name: "order_item"
+          required: true
+          schema:
+            $ref: "#/definitions/OrderItem"
+      responses:
+        201:
+          schema:
+            $ref: "#/definitions/OrderItem"
+
+  /order-items/{item_id}:
+    get:
+      summary: "Buscar item de pedido por ID"
+      parameters:
+        - in: "path"
+          name: "item_id"
+          type: "integer"
+          required: true
+      responses:
+        200:
+          schema:
+            $ref: "#/definitions/OrderItem"
+    put:
+      summary: "Atualizar item de pedido"
+      parameters:
+        - in: "path"
+          name: "item_id"
+          type: "integer"
+          required: true
+        - in: "body"
+          name: "order_item"
+          required: true
+          schema:
+            $ref: "#/definitions/OrderItem"
+      responses:
+        200:
+          schema:
+            $ref: "#/definitions/OrderItem"
+    delete:
+      summary: "Deletar item de pedido"
+      parameters:
+        - in: "path"
+          name: "item_id"
+          type: "integer"
+          required: true
+      responses:
+        204:
+          description: "Item deletado"
