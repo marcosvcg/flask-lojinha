@@ -388,3 +388,112 @@ paths:
       responses:
         204:
           description: "Item deletado"
+  /addresses:
+     get:
+       summary: "Obter todos os endereços"
+       description: "Retorna todos os endereços cadastrados no sistema."
+       responses:
+         200:
+           description: "Lista de endereços"
+           schema:
+             type: "array"
+             items:
+               $ref: "#/definitions/Address"
+         500:
+           description: "Erro interno no servidor"
+           schema:
+             type: "object"
+             properties:
+               error:
+                 type: "string"
+                 example: "Erro ao obter endereços."
+ 
+     post:
+       summary: "Criar um novo endereço"
+       description: "Cadastra um novo endereço no sistema."
+       parameters:
+         - in: "body"
+           name: "address"
+           description: "Endereço a ser criado"
+           required: true
+           schema:
+             $ref: "#/definitions/Address"
+       responses:
+         201:
+           description: "Endereço criado com sucesso"
+           schema:
+             $ref: "#/definitions/Address"
+         400:
+           description: "Erro de validação dos dados"
+           schema:
+             type: "object"
+             properties:
+               error:
+                 type: "string"
+                 example: "Dados inválidos para o endereço."
+ 
+  /addresses/{address_id}:
+     get:
+       summary: "Obter um endereço pelo ID"
+       description: "Retorna o endereço correspondente ao ID fornecido."
+       parameters:
+         - in: "path"
+           name: "address_id"
+           type: "integer"
+           required: true
+           description: "ID do endereço"
+       responses:
+         200:
+           description: "Endereço encontrado"
+           schema:
+             $ref: "#/definitions/Address"
+         404:
+           description: "Endereço não encontrado"
+           schema:
+             type: "object"
+             properties:
+               error:
+                 type: "string"
+                 example: "Endereço não encontrado."
+ 
+     put:
+       summary: "Atualizar um endereço"
+       description: "Atualiza um endereço existente no sistema."
+       parameters:
+         - in: "path"
+           name: "address_id"
+           type: "integer"
+           required: true
+           description: "ID do endereço"
+         - in: "body"
+           name: "address"
+           description: "Dados do endereço a serem atualizados"
+           required: true
+           schema:
+             $ref: "#/definitions/Address"
+       responses:
+         200:
+           description: "Endereço atualizado com sucesso"
+           schema:
+             $ref: "#/definitions/Address"
+         400:
+           description: "Erro ao atualizar endereço"
+         404:
+           description: "Endereço não encontrado"
+ 
+     delete:
+       summary: "Excluir um endereço"
+       description: "Exclui um endereço existente pelo ID fornecido."
+       parameters:
+         - in: "path"
+           name: "address_id"
+           type: "integer"
+           required: true
+           description: "ID do endereço"
+       responses:
+         204:
+           description: "Endereço excluído com sucesso"
+         404:
+           description: "Endereço não encontrado"
+         400:
+           description: "Erro ao excluir endereço"
