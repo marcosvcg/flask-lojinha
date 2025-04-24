@@ -14,9 +14,6 @@ definitions:
   Address:
     type: "object"
     properties:
-      id:
-        type: "integer"
-        description: "ID do endereço"
       postcode:
         type: "string"
         description: "Código postal"
@@ -42,9 +39,6 @@ definitions:
   Category:
     type: "object"
     properties:
-      id:
-        type: "integer"
-        description: "ID da categoria"
       name:
         type: "string"
         description: "Nome da categoria"
@@ -54,9 +48,6 @@ definitions:
   Product:
     type: "object"
     properties:
-      id:
-        type: "integer"
-        description: "ID do produto"
       name:
         type: "string"
         description: "Nome do produto"
@@ -82,9 +73,6 @@ definitions:
   OrderItem:
     type: "object"
     properties:
-      id:
-        type: "integer"
-        description: "ID do item do pedido"
       order_id:
         type: "integer"
         description: "ID do pedido"
@@ -109,9 +97,6 @@ definitions:
   Order:
     type: "object"
     properties:
-      id:
-        type: "integer"
-        description: "ID do pedido"
       order_date:
         type: "string"
         format: "date-time"

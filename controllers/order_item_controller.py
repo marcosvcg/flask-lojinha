@@ -3,7 +3,7 @@ from services import OrderItemService
 from util.exceptions import NotFoundError
 from sqlalchemy.exc import SQLAlchemyError
 
-bp = Blueprint('order_item', __name__, url_prefix='/order_items')
+bp = Blueprint('order_item', __name__, url_prefix='/order-items')
 
 @bp.route('/', methods=['GET'])
 def get_order_items():
