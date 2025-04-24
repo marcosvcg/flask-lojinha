@@ -86,8 +86,6 @@ definitions:
         type: "number"
         format: "float"
         description: "Preço do produto no momento da compra"
-      product:
-        $ref: "#/definitions/Product"
     required:
       - order_id
       - product_id
@@ -99,8 +97,12 @@ definitions:
     properties:
       order_date:
         type: "string"
-        format: "date-time"
+        format: "date"
         description: "Data do pedido"
+      order_time:
+        type: "string"
+        format: "time"
+        description: "Horário do pedido"
       status:
         type: "string"
         description: "Status do pedido"
@@ -112,6 +114,9 @@ definitions:
         type: "string"
         format: "date-time"
         description: "Data de conclusão do pedido"
+      address_id:
+        type: "integer"
+        description: "ID do Endereço"
       address:
         $ref: "#/definitions/Address"
       items:
@@ -120,9 +125,9 @@ definitions:
           $ref: "#/definitions/OrderItem"
     required:
       - order_date
+      - order_time
       - status
       - total_price
-      - address
 
 paths:
 

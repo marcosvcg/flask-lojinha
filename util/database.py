@@ -5,8 +5,6 @@ db = SQLAlchemy()
 
 def init_db(app):
     db.init_app(app)
-    
-    from models import Product, Order, OrderItem, Category, Address
 
     with app.app_context():
         db.drop_all()
@@ -39,9 +37,9 @@ def create_dummy_data():
 
     db.session.execute(
         text(
-            "INSERT INTO orders (order_date, status, total_price, completed_at, address_id) "
-            "VALUES (CURRENT_TIMESTAMP, 'pending', 1200.00, NULL, 1), "
-            "(CURRENT_TIMESTAMP, 'delivered', 50.00, CURRENT_TIMESTAMP, 2)"
+            "INSERT INTO orders (order_date, order_date_only, order_time_only, status, total_price, completed_at, address_id) "
+            "VALUES (CURRENT_TIMESTAMP, CURRENT_DATE, CURRENT_TIME, 'pending', 1200.00, NULL, 1),"
+            "(CURRENT_TIMESTAMP, CURRENT_DATE, CURRENT_TIME, 'delivered', 50.00, CURRENT_TIMESTAMP, 2)"
         )
     )
     db.session.commit()
