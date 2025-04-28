@@ -37,7 +37,7 @@ def create_dummy_data():
 
     db.session.execute(
         text(
-            "INSERT INTO orders (order_date, order_date_only, order_time_only, status, total_price, completed_at, address_id) "
+            "INSERT INTO orders (order_datetime, order_date, order_time, status, total_price, completed_at, address_id) "
             "VALUES (CURRENT_TIMESTAMP, CURRENT_DATE, CURRENT_TIME, 'pending', 1200.00, NULL, 1),"
             "(CURRENT_TIMESTAMP, CURRENT_DATE, CURRENT_TIME, 'delivered', 50.00, CURRENT_TIMESTAMP, 2)"
         )
